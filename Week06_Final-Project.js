@@ -1,3 +1,10 @@
+// declaring card variables
+const suits = ['Hearts', 'Spades', 'Clubs', 'Diamonds'];
+const cardNumber = ['1', '2', '3', '4', '5', '6', '7', '8',
+'9', '10', '11', '12', '13'];
+// how do i change 11, 12, & 13 to J, Q, K
+
+
 // class for the players
 class Player {
     constructor(name) {
@@ -15,8 +22,8 @@ class Player {
     }
 }
 //creating players
-const player1 = new Player('Briana');
-const player2 = new Player('Violet');
+const player1 = new Player(prompt ('Enter player name'));
+const player2 = new Player(prompt ('Enter player name'));
 console.log(player1, player2)
 
 
@@ -53,14 +60,10 @@ class Deck {
     }
 }
 
-// creating a deck
-const deck = new Deck();
 
-// declaring card variables
-const suits = ['Hearts', 'Spades', 'Clubs', 'Diamonds'];
-const cardNumber = ['1', '2', '3', '4', '5', '6', '7', '8',
-'9', '10', '11', '12', '13'];
 
+
+// Playing the game
 
 //creating a new card instance loop
 suits.forEach( (suit) => {
@@ -69,4 +72,21 @@ suits.forEach( (suit) => {
     }
 });
 
-console.log(deck);
+// creating a deck
+const deck = new Deck();
+// dealing shuffled hands to players
+deck.shuffle();
+deck.dealCards(player1,player2);
+console.log(player1,player2);
+
+// players taking turns
+while (player1.hand.length > 0) {
+    let p1CurrentCard = player1.playCard();
+    let p2CurrentCard = player2.playCard();
+    console.log(p1CurrentCard, p2CurrentCard);
+}
+
+if (p1CurrentCard > p2CurrentCard) {
+    let p1Score = player1.points();
+    console.log(p1Score);
+}
