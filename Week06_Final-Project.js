@@ -1,10 +1,3 @@
-// declaring card variables
-const suits = ['Hearts', 'Spades', 'Clubs', 'Diamonds'];
-const cardNumber = ['1', '2', '3', '4', '5', '6', '7', '8',
-'9', '10', '11', '12', '13'];
-// how do i change 11, 12, & 13 to J, Q, K
-
-
 // class for the players
 class Player {
     constructor(name) {
@@ -22,71 +15,123 @@ class Player {
     }
 }
 //creating players
-const player1 = new Player(prompt ('Enter player name'));
-const player2 = new Player(prompt ('Enter player name'));
-console.log(player1, player2)
+const player1 = new Player("Briana");
+const player2 = new Player("Violet");
+//console.log(player1, player2)
 
 
 
 // class for the cards
-class Card {
-    constructor(cardNumber, suit) {
-        this.cardNumber = cardNumber;
-        this.suit = suit;
-    }
-
-    describe() {
-        return `${this.cardNumber} of ${this.suit}}`
-    }
-}
-
-
-// class for the decks
 class Deck {
     constructor() {
-        this.cards = [];
+        this.cardNumbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+        this.suits = ['Hearts', 'Spades', 'Clubs', 'Diamonds'];
+        this.ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14'];
+        this.deck = [];
+    }
+    // create deck
+    createDeck() {
+        // for loop iterates over suits
+        for(let s = 0; s < this.suits.length; s++) {
+            //  console.log(this.suit[s]);
+
+        // for loop iterates over cardNumbers
+        for(let n = 0; n < this.cardNumbers.length; n++) {
+            //  console.log(this.cardNumber[n]);
+            const suit = this.suits[s]; 
+            const cardNumber = this.cardNumbers[n];
+            const rank = this.ranks[n];
+            // push card numbers in the loop
+            this.deck.push({suit, cardNumber, rank})
+            }
+        }
+        console.log('printing deck', this.deck);
     }
     // shuffles the deck
     shuffle() {
-        this.cards = this.cards.sort(() => Math.random() - 0.5)
+        this.deck = this.deck.sort(() => Math.random() - 0.5)
     }
-
+    describe() {
+        return `${this.cardNumber} of ${this.suits}}`
+    }
     // deals cards  
     dealCards(player1,player2) {
-        while (this.cards.length > 0) {
-            player1.hand.push(this.cards.pop());
-            player2.hand.push(this.cards.pop());
+        while (this.deck.length > 0) {
+            player1.hand.push(this.deck.pop());
+            player2.hand.push(this.deck.pop());
         }
     }
 }
 
+let gameDeck = new Deck();
+gameDeck.createDeck(); // allows the next lines to run
+gameDeck.shuffle();
+gameDeck.dealCards(player1,player2);
+//console.log(gameDeck);
 
 
+class Game {
+    // methods
 
-// Playing the game
-
-//creating a new card instance loop
-suits.forEach( (suit) => {
-    for (let i = 1; i < 14; i++) {
-        deck.cards.push(new Card(i, `${i} of ${suit}`));
+    // compare cards
+    compareCards() {
+        for (let round = 0; round < 26; round++) {
+            console.log(player1.name, player1.hand[round]);
+            console.log(player2.name, player2.hand[round]);
+            // condititional statments to check which card is bigger
+            if (player1.hand[round].rank > player2.hand[round].rank) {
+                //add to player1 score
+                player1.score += 1
+                console.log(`${player1.name} score ${player1.score}`);
+                console.log(`${player2.name} score ${player2.score}`);
+                console.log(`${player1.name} is the winner!
+                
+                `);
+            } else if(player2.hand[round].rank > player1.hand[round].rank) {
+                player2.score += 1
+                console.log(`${player1.name} score ${player1.score}`);
+                console.log(`${player2.name} score ${player2.score}`);
+                console.log(`${player2.name} is the winner!
+                
+                `);
+            } else {
+                console.log(`${player1.name} score ${player1.score}`);
+                console.log(`${player2.name} score ${player2.score}`);
+                console.log(`${player1.name} and ${player2.name} tied this round!
+                
+                `);
+            }
+        }
     }
-});
+    // determine a winner
+    
+    determineWinner() {
+        //check to see if player1 score > player2 or tied
+        if (player1.score > player2.score) {
+            console.log(`${player1.name} score ${player1.score}`);
+            console.log(`${player2.name} score ${player2.score}`);
+            console.log(`${player1.name} is the winner!`);
 
-// creating a deck
-const deck = new Deck();
-// dealing shuffled hands to players
-deck.shuffle();
-deck.dealCards(player1,player2);
-console.log(player1,player2);
+        } else if (player2.score > player1.score) {
+            console.log(`${player1.name} score ${player1.score}`);
+            console.log(`${player2.name} score ${player2.score}`);
+            console.log(`${player2.name} is the winner!`)
 
-// players taking turns
-while (player1.hand.length > 0) {
-    let p1CurrentCard = player1.playCard();
-    let p2CurrentCard = player2.playCard();
-    console.log(p1CurrentCard, p2CurrentCard);
+        } else {
+            console.log(`${player1.name} score ${player1.score}`);
+            console.log(`${player2.name} score ${player2.score}`);
+            console.log(`${player1} and ${player2} tied the game!`);
+        } 
+    }
 }
 
-if (p1CurrentCard > p2CurrentCard) {
-    let p1Score = player1.points();
-    console.log(p1Score);
-}
+let playGame = new Game();
+playGame.compareCards();
+playGame.determineWinner();
+
+
+
+
+
+
+
