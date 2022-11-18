@@ -60,7 +60,7 @@ class Deck {
             player1.hand.push(this.deck.pop());
             player2.hand.push(this.deck.pop());
         }
-    }
+    } 
 }
 
 let gameDeck = new Deck();
